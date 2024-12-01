@@ -1,18 +1,21 @@
 from pathlib import Path
 
-FIRST_PUZZLE_INPUT = Path('./puzzles/day_1_first_puzzle.txt').read_text()
-SECOND_PUZZLE_INPUT = FIRST_PUZZLE_INPUT
+PUZZLE_INPUT = Path('./puzzles/day_1_puzzle.txt').read_text()
 
-def solve_first_task(task_input):
+def _prepare_data(raw_data):
     left = []
     right = []
-    result = 0
-    for line in task_input.splitlines():
+    for line in raw_data.splitlines():
         if not line:
             continue
         left_val, right_val = line.strip().split()
         left.append(int(left_val.strip()))
         right.append(int(right_val.strip()))
+    return left, right
+
+def solve_first_part(task_input):
+    left, right = _prepare_data(task_input)
+    result = 0
 
     left = sorted(left)
     right = sorted(right)
@@ -22,21 +25,14 @@ def solve_first_task(task_input):
 
     return result
 
-def solve_second_task(task_input):
-    left = []
-    right = []
+def solve_second_part(task_input):
+    left, right = _prepare_data(task_input)
     result = 0
-    for line in task_input.splitlines():
-        if not line:
-            continue
-        left_val, right_val = line.strip().split()
-        left.append(int(left_val.strip()))
-        right.append(int(right_val.strip()))
 
     for value in left:
         result+=value*right.count(value)
     return result
 
 if __name__ == "__main__":
-    print(solve_first_task(FIRST_PUZZLE_INPUT))
-    print(solve_second_task(SECOND_PUZZLE_INPUT))
+    print(solve_first_part(PUZZLE_INPUT))
+    print(solve_second_part(PUZZLE_INPUT))
