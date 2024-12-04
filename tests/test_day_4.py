@@ -11,11 +11,21 @@ S.S.S.S.SS
 ..M.M.M.MM
 .X.X.XMASX
 """
+_SECOND_PUZZLE_EXAMPLE_INPUT = """.M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+.........."""
 _EXPECTED_FIRST_PART_RESULT = 18
-_EXPECTED_SECOND_PART_RESULT = -1
+_EXPECTED_SECOND_PART_RESULT = 9
 
 def test_solve_first_part():
     assert solve_first_part(_PUZZLE_EXAMPLE_INPUT) == _EXPECTED_FIRST_PART_RESULT
 
 def test_solve_second_part():
-    assert solve_second_part(_PUZZLE_EXAMPLE_INPUT) == _EXPECTED_SECOND_PART_RESULT
+    assert solve_second_part(_SECOND_PUZZLE_EXAMPLE_INPUT) == _EXPECTED_SECOND_PART_RESULT

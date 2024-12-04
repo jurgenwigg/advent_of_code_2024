@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import re
 PUZZLE_INPUT = Path('./puzzles/day_4_puzzle.txt').read_text()
 
 def _text_in_row(puzzle):
@@ -35,7 +35,6 @@ def _text_diagonal_left(puzzle):
             d=puzzle[line_index+3][char_index]
 
             window = ''.join([a,b,c,d])
-            print(f'{window=} | {int(bool(window == "XMAS" or window=="SAMX"))=}')
             result += int(bool(window == "XMAS" or window=="SAMX"))
     return result
 
@@ -60,8 +59,54 @@ def solve_first_part(task_input):
     result += _text_vertical(puzzle)
     return result
 
+MAS_REGEX = re.compile(r'M.S')
+SAM_REGEX = re.compile(r'S.M')
+SAS_REGEX = re.compile(r'S.S')
+MAM_REGEX = re.compile(r'M.M')
+def _findall_mas(puzzle):
+    result = 0
+    for line_idx, line in enumerate(puzzle[:-2]):
+        for char_idx, elem in enumerate(line[:-2]):
+            if MAS_REGEX.findall(''.join(line[char_idx:char_idx+3])):
+                if puzzle[line_idx+1][char_idx+1] == 'A':
+                    if MAS_REGEX.findall(''.join(puzzle[line_idx+2][char_idx:char_idx+3])):
+                        result += 1
+    return result
+
+def _findall_sam(puzzle):
+    result = 0
+    for line_idx, line in enumerate(puzzle[:-2]):
+        for char_idx, elem in enumerate(line[:-2]):
+            if SAM_REGEX.findall(''.join(line[char_idx:char_idx+3])):
+                if puzzle[line_idx+1][char_idx+1] == 'A':
+                    if SAM_REGEX.findall(''.join(puzzle[line_idx+2][char_idx:char_idx+3])):
+                        result += 1
+    return result
+
+def _findall_sas(puzzle):
+    result = 0
+    for line_idx, line in enumerate(puzzle[:-2]):
+        for char_idx, elem in enumerate(line[:-2]):
+            if SAS_REGEX.findall(''.join(line[char_idx:char_idx+3])):
+                if puzzle[line_idx+1][char_idx+1] == 'A':
+                    if MAM_REGEX.findall(''.join(puzzle[line_idx+2][char_idx:char_idx+3])):
+                        result += 1
+    return result
+def _findall_mam(puzzle):
+    result = 0
+    for line_idx, line in enumerate(puzzle[:-2]):
+        for char_idx, elem in enumerate(line[:-2]):
+            if MAM_REGEX.findall(''.join(line[char_idx:char_idx+3])):
+                if puzzle[line_idx+1][char_idx+1] == 'A':
+                    if SAS_REGEX.findall(''.join(puzzle[line_idx+2][char_idx:char_idx+3])):
+                        result += 1
+    return result
 def solve_second_part(task_input):
-    result = -1
+    puzzle = task_input.splitlines()
+    result = _findall_mas(puzzle)
+    result += _findall_sam(puzzle)
+    result += _findall_sas(puzzle)
+    result += _findall_mam(puzzle)
     return result
 
 if __name__ == "__main__":
